@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استمارة المعطيات المدرسية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a6b3c;
+    --green-light: #2d8a54;
+    --green-pale: #e8f5ee;
+    --red: #c0392b;
+    --gold: #c9a227;
+    --gold-light: #f7e7a0;
+    --gray-dark: #2c3e50;
+    --gray-mid: #5a6a7a;
+    --gray-light: #ecf0f1;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(0,0,0,0.10);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: linear-gradient(135deg, #f0f7f4 0%, #e8f1f8 100%);
+    min-height: 100vh;
+    color: var(--gray-dark);
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--green) 0%, #0f4a2b 100%);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 220px; height: 220px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 32px 24px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-icon {
+    width: 64px; height: 64px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+    border: 1.5px solid rgba(255,255,255,0.25);
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+  }
+  .header p {
+    font-size: 13px;
+    opacity: 0.8;
+    font-weight: 300;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+  }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 860px;
+    margin: 32px auto;
+    padding: 0 16px 60px;
+  }
+
+  /* CARD */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    background: linear-gradient(90deg, var(--green-pale) 0%, #f5fbf7 100%);
+    border-bottom: 2px solid var(--green-pale);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-header .icon {
+    font-size: 20px;
+  }
+  .card-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .step-badge {
+    margin-right: auto;
+    background: var(--green);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-body {
+    padding: 24px;
+  }
+
+  /* FORM ELEMENTS */
+  .field-group {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-mid);
+    margin-bottom: 7px;
+    letter-spacing: 0.3px;
+  }
+  label span.req {
+    color: var(--red);
+    margin-right: 3px;
+  }
+
+  select, input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 11px 15px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    border: 2px solid #dde4ea;
+    border-radius: 8px;
+    background: #f9fbfd;
+    color: var(--gray-dark);
+    transition: all 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(26,107,60,0.1);
+  }
+  select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .select-wrapper {
+    position: relative;
+  }
+  .select-wrapper::after {
+    content: '▾';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--green);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  /* UNIT TABLE */
+  .units-section {
+    display: none;
+  }
+  .units-section.visible {
+    display: block;
+  }
+  .units-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed var(--green-pale);
+  }
+  .units-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .units-count {
+    background: var(--green);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 10px;
+  }
+
+  .units-table-wrap {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1.5px solid #dde4ea;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead {
+    background: linear-gradient(90deg, var(--green) 0%, var(--green-light) 100%);
+    color: white;
+  }
+  th {
+    padding: 11px 14px;
+    font-weight: 700;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  th:first-child { border-radius: 0 8px 0 0; text-align: right; }
+  th:last-child { border-radius: 8px 0 0 0; }
+
+  tbody tr:nth-child(even) { background: #f9fbfd; }
+  tbody tr:hover { background: var(--green-pale); }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #edf0f3;
+    vertical-align: middle;
+  }
+  td:first-child { font-weight: 600; }
+  td.id-cell {
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--gray-mid);
+    direction: ltr;
+    text-align: center;
+  }
+  td input[type="number"] {
+    width: 80px;
+    padding: 6px 8px;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 6px;
+  }
+  td input[type="text"] {
+    width: 100%;
+    min-width: 120px;
+    padding: 6px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+  td select {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  /* INFO GRID */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 580px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 17px; }
+    th, td { font-size: 11px; padding: 7px 8px; }
+  }
+
+  /* SELECTED INFO BOX */
+  .info-box {
+    display: none;
+    background: var(--green-pale);
+    border: 1.5px solid #b8dfc8;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .info-box.show { display: block; }
+  .info-box strong { color: var(--green); }
+
+  /* SUBMIT BUTTON */
+  .submit-section {
+    text-align: center;
+    padding: 8px 0 0;
+  }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+    color: white;
+    border: none;
+    padding: 15px 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(26,107,60,0.30);
+    letter-spacing: 0.5px;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 22px rgba(26,107,60,0.40);
+  }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* TOAST */
+  .toast {
+    display: none;
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 28px;
+    border-radius: 40px;
+    font-weight: 700;
+    font-size: 14px;
+    z-index: 9999;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+    animation: slideDown 0.3s ease;
+  }
+  .toast.success { background: var(--green); color: white; display: block; }
+  .toast.error { background: var(--red); color: white; display: block; }
+  @keyframes slideDown {
+    from { opacity: 0; top: 10px; }
+    to { opacity: 1; top: 24px; }
+  }
+
+  /* LOADING */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    z-index: 9998;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .loading-overlay.show { display: flex; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 5px solid var(--green-pale);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* STEP INDICATOR */
+  .steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 28px;
+    padding: 0 8px;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #adb5bd;
+    position: relative;
+  }
+  .step .dot {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: #dde4ea;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #adb5bd;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    border: 2px solid #dde4ea;
+  }
+  .step.active .dot {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+    box-shadow: 0 0 0 4px rgba(26,107,60,0.15);
+  }
+  .step.active { color: var(--green); }
+  .step.done .dot {
+    background: var(--green-pale);
+    color: var(--green);
+    border-color: var(--green);
+  }
+  .step-line {
+    width: 40px;
+    height: 2px;
+    background: #dde4ea;
+    margin: 0 4px;
+  }
+  .step-line.done { background: var(--green); }
+
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green-pale), transparent);
+    margin: 4px 0 20px;
+  }
+
+  /* readonly display fields */
+  .display-field {
+    padding: 10px 14px;
+    background: #f9fbfd;
+    border: 2px solid #dde4ea;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--gray-dark);
+    min-height: 42px;
+  }
+
+  .col-hint {
+    font-size: 10px;
+    color: var(--gray-mid);
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <span>جارٍ إرسال البيانات...</span>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-icon">🏫</div>
+    <div>
+      <h1>استمارة المعطيات المدرسية</h1>
+      <p>المديرية الإقليمية — التعليم الابتدائي</p>
+      <span class="badge">الموسم الدراسي 2024-2025</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- STEP INDICATOR -->
+  <div class="steps">
+    <div class="step active" id="s1">
+      <div class="dot">١</div>
+      <span>تحديد المؤسسة</span>
+    </div>
+    <div class="step-line" id="l1"></div>
+    <div class="step" id="s2">
+      <div class="dot">٢</div>
+      <span>معلومات المدير</span>
+    </div>
+    <div class="step-line" id="l2"></div>
+    <div class="step" id="s3">
+      <div class="dot">٣</div>
+      <span>بيانات الوحدات</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: LOCATION -->
+  <div class="card" id="card1">
+    <div class="card-header">
+      <span class="icon">📍</span>
+      <h2>تحديد الجماعة والمؤسسة</h2>
+      <div class="step-badge">١</div>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="field-group">
+          <label>الجماعة <span class="req">*</span></label>
+          <div class="select-wrapper">
+            <select id="selectCommune" onchange="onCommuneChange()">
+              <option value="">— اختر الجماعة —</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>المؤسسة <span class="req">*</span></label>
+          <div class="select-wrapper">
+            <select id="selectEtab" onchange="onEtabChange()" disabled>
+              <option value="">— اختر المؤسسة —</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="info-box" id="etabInfoBox">
+        <strong>رمز الارتباط:</strong> <span id="etabCode">—</span>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <strong>عدد الوحدات:</strong> <span id="etabUnitCount">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: DIRECTOR INFO -->
+  <div class="card" id="card2">
+    <div class="card-header">
+      <span class="icon">👤</span>
+      <h2>معلومات المدير</h2>
+      <div class="step-badge">٢</div>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="field-group">
+          <label>اسم المدير <span class="req">*</span></label>
+          <input type="text" id="directorName" placeholder="الاسم الكامل">
+        </div>
+        <div class="field-group">
+          <label>رقم الهاتف</label>
+          <input type="text" id="directorPhone" placeholder="06XXXXXXXX" dir="ltr">
+        </div>
+        <div class="field-group">
+          <label>البريد الإلكتروني</label>
+          <input type="text" id="directorEmail" placeholder="exemple@men.gov.ma" dir="ltr">
+        </div>
+        <div class="field-group">
+          <label>تاريخ الملء</label>
+          <div class="display-field" id="fillDate">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: UNITS DATA -->
+  <div class="card" id="card3">
+    <div class="card-header">
+      <span class="icon">📊</span>
+      <h2>بيانات الوحدات التربوية</h2>
+      <div class="step-badge">٣</div>
+    </div>
+    <div class="card-body">
+
+      <div class="units-section" id="unitsSection">
+        <div class="units-header">
+          <span>🏘️</span>
+          <h3>وحدات المؤسسة</h3>
+          <span class="units-count" id="unitsCountBadge">0</span>
+        </div>
+        <div class="units-table-wrap">
+          <table id="unitsTable">
+            <thead>
+              <tr>
+                <th style="text-align:right; min-width:130px">الوحدة</th>
+                <th>الرمز</th>
+                <th>
+                  الأولى ابتدائي
+                  <span class="col-hint">(عدد التلاميذ)</span>
+                </th>
+                <th>
+                  مجموع الابتدائي
+                  <span class="col-hint">(عدد التلاميذ)</span>
+                </th>
+                <th>
+                  الأولى أولي
+                  <span class="col-hint">(أقسام)</span>
+                </th>
+                <th>
+                  الثانية أولي
+                  <span class="col-hint">(أقسام)</span>
+                </th>
+                <th>
+                  حجرات الأولي
+                </th>
+                <th>المبادرة</th>
+                <th>
+                  المسافة
+                  <span class="col-hint">(كلم)</span>
+                </th>
+                <th>ملاحظات</th>
+              </tr>
+            </thead>
+            <tbody id="unitsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="noUnitMsg" style="text-align:center;padding:30px;color:#adb5bd;font-size:13px;">
+        ← الرجاء اختيار الجماعة والمؤسسة أولاً
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-section">
+    <button class="btn-submit" id="btnSubmit" onclick="submitForm()" disabled>
+      ✅ &nbsp; حفظ وإرسال البيانات
+    </button>
+    <p style="margin-top:12px; font-size:12px; color:var(--gray-mid);">
+      سيتم حفظ البيانات في قاعدة البيانات المركزية
+    </p>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// =============================================
+// DATA
+// =============================================
+const SCHOOLS = {"الصويرة": {"مدرسة ابن خلدون": {"code": "09858P", "unites": [{"id": "09858P", "nom": "مدرسة ابن خلدون"}]}, "مدرسة للا أمينة 2": {"code": "09859R", "unites": [{"id": "09859R", "nom": "مدرسة للا أمينة 2"}]}, "مدرسة للا أمينة1": {"code": "09860S", "unites": [{"id": "09860S", "nom": "مدرسة للا أمينة1"}]}, "مدرسة التلال": {"code": "09861T", "unites": [{"id": "09861T", "nom": "مدرسة التلال"}]}, "مدرسة الحسنية 1": {"code": "09862U", "unites": [{"id": "09862U", "nom": "مدرسة الحسنية 1"}]}, "دار الدهب": {"code": "09863V", "unites": [{"id": "09863V", "nom": "دار الدهب"}]}, "مدرسة البحيرة": {"code": "09866Y", "unites": [{"id": "09866Y", "nom": "مدرسة البحيرة"}]}, "م.م. العيون": {"code": "09880N", "unites": [{"id": "09880N", "nom": "م.م. العيون"}, {"id": "09881P", "nom": "واسن"}]}, "م.م. محمد الزرقطوني": {"code": "09882R", "unites": [{"id": "09882R", "nom": "م.م. محمد الزرقطوني"}, {"id": "09883S", "nom": "الديابات"}]}, "مدرسة الصقالة": {"code": "18778K", "unites": [{"id": "18778K", "nom": "مدرسة الصقالة"}]}, "مدرسة الخنساء": {"code": "24206K", "unites": [{"id": "24206K", "nom": "مدرسة الخنساء"}]}, "أبي ذر الغفاري": {"code": "25709U", "unites": [{"id": "25709U", "nom": "أبي ذر الغفاري"}]}}, "الحنشان (البلدية)": {"مدرسة ابن رشد": {"code": "09869B", "unites": [{"id": "09869B", "nom": "مدرسة ابن رشد"}]}, "المدرسة الجديدة": {"code": "09870C", "unites": [{"id": "09870C", "nom": "المدرسة الجديدة"}]}}, "تالمست (البلدية)": {"مدرسة المعتمد بن عباد": {"code": "09871D", "unites": [{"id": "09871D", "nom": "مدرسة المعتمد بن عباد"}]}, "مدرسة سيدي عبد الجليل": {"code": "09872E", "unites": [{"id": "09872E", "nom": "مدرسة سيدي عبد الجليل"}]}, "مدرسة ايت رشيد": {"code": "09873F", "unites": [{"id": "09873F", "nom": "مدرسة ايت رشيد"}]}}, "أيت داوود (البلدية)": {"مدرسة الرازي": {"code": "09874G", "unites": [{"id": "09874G", "nom": "مدرسة الرازي"}]}}, "تمنار (البلدية)": {"مدرسة القدس": {"code": "09875H", "unites": [{"id": "09875H", "nom": "مدرسة القدس"}]}, "مدرسة سيدي سعيد": {"code": "09876J", "unites": [{"id": "09876J", "nom": "مدرسة سيدي سعيد"}]}, "م.م. أركان": {"code": "09884T", "unites": [{"id": "09884T", "nom": "م.م. أركان"}, {"id": "09885U", "nom": "بومجي"}, {"id": "09886V", "nom": "بوزني"}, {"id": "09887W", "nom": "إزواغن"}, {"id": "09888X", "nom": "إد لحسن"}, {"id": "09889Y", "nom": "تعكارت"}]}}, "ادغاس": {"م.م. أدغاس": {"code": "10151H", "unites": [{"id": "10151H", "nom": "م.م. أدغاس"}, {"id": "10152J", "nom": "فرعية ايت حماد"}, {"id": "10153K", "nom": "فرعية تاكركارت"}, {"id": "10154L", "nom": "فرعية ادغاس"}, {"id": "10155M", "nom": "فرعية داكات"}, {"id": "21456W", "nom": "فرعية تافريخاس"}, {"id": "21457X", "nom": "فرعية انزكار"}]}}, "اسايس": {"م م تكولت": {"code": "10163W", "unites": [{"id": "10163W", "nom": "م م تكولت"}, {"id": "10164X", "nom": "تمكرت"}, {"id": "10165Y", "nom": "ايت واعيسي"}, {"id": "10166Z", "nom": "انكيزم"}, {"id": "10167A", "nom": "تاطرا"}, {"id": "18496D", "nom": "تاسيلا"}]}, "م.م. أكرارو": {"code": "10156N", "unites": [{"id": "10156N", "nom": "م.م. أكرارو"}, {"id": "10157P", "nom": "أنستمن"}, {"id": "10158R", "nom": "أسكا"}, {"id": "21996H", "nom": "مووشن"}, {"id": "22256R", "nom": "تفخاخت"}]}, "م.م. الجاحظ": {"code": "10161U", "unites": [{"id": "10161U", "nom": "م.م. الجاحظ"}, {"id": "10159S", "nom": "فرعية تيزي"}, {"id": "10160T", "nom": "فرعية اغبالو"}, {"id": "10162V", "nom": "فرعية اكرزكاغن"}, {"id": "10168B", "nom": "فرعية اوسول"}]}}, "اقرمود": {"م م أقرمود": {"code": "10106J", "unites": [{"id": "10106J", "nom": "م م أقرمود"}, {"id": "10107K", "nom": "الحمامدة"}, {"id": "10109M", "nom": "أولاد سي امحمد"}, {"id": "10110N", "nom": "أولاد الفقيه"}, {"id": "10112R", "nom": "ايت حميد"}]}, "م م المكادمة": {"code": "10101D", "unites": [{"id": "10101D", "nom": "م م المكادمة"}, {"id": "10102E", "nom": "السعادات"}, {"id": "10103F", "nom": "اولاد علي"}, {"id": "10104G", "nom": "تمالوكت"}, {"id": "10105H", "nom": "العركوب"}]}, "م م سيدي صالح الركراركي": {"code": "10095X", "unites": [{"id": "10095X", "nom": "م م سيدي صالح الركراركي"}, {"id": "10097Z", "nom": "هل بنمل"}, {"id": "10098A", "nom": "توريرت"}, {"id": "10099B", "nom": "الزراولة"}, {"id": "10100C", "nom": "لحلايس"}]}, "م.م. الفرابي": {"code": "10111P", "unites": [{"id": "10111P", "nom": "م.م. الفرابي"}, {"id": "10096Y", "nom": "البطن"}, {"id": "10108L", "nom": "سيدي صالح 2"}, {"id": "19828B", "nom": "الغابة أولاد الفقيه"}, {"id": "23051E", "nom": "الجغاليل"}]}}, "اكرض": {"م م بوزاما": {"code": "10241F", "unites": [{"id": "10241F", "nom": "م م بوزاما"}, {"id": "10242G", "nom": "فرعية لعاظامنا"}, {"id": "10243H", "nom": "فرعية اداوزمن"}, {"id": "26448X", "nom": "اماريرن"}]}, "م.م.المختار السوسي": {"code": "10236A", "unites": [{"id": "10236A", "nom": "م.م.المختار السوسي"}, {"id": "10237B", "nom": "أزرو"}, {"id": "10238C", "nom": "المرس"}, {"id": "10239D", "nom": "البور"}, {"id": "10240E", "nom": "ابشراطن"}]}}, "اكليف": {"م م ابن تومرت": {"code": "10180P", "unites": [{"id": "10180P", "nom": "م م ابن تومرت"}, {"id": "10181R", "nom": "ايت اوجاعة"}, {"id": "25355J", "nom": "فيسولين"}, {"id": "25603D", "nom": "تاغزوت"}, {"id": "26158G", "nom": "ايت شاووك"}]}, "م م ايت عدي": {"code": "10189Z", "unites": [{"id": "10189Z", "nom": "م م ايت عدي"}, {"id": "10191B", "nom": "تابرداحت"}, {"id": "21461B", "nom": "أزواوض"}, {"id": "23456V", "nom": "اكسيمن"}, {"id": "26756G", "nom": "الما"}]}, "م م تكاديرت": {"code": "10179N", "unites": [{"id": "10179N", "nom": "م م تكاديرت"}, {"id": "10182S", "nom": "تمزلال"}, {"id": "10183T", "nom": "إفراضن"}, {"id": "25602C", "nom": "لقريط"}]}, "م.م. أكليف": {"code": "10192C", "unites": [{"id": "10184U", "nom": "اكيرار افلا"}, {"id": "10186W", "nom": "بومداغ"}, {"id": "10187X", "nom": "تسيلا ماراو"}, {"id": "10190A", "nom": "تاسيلا تزكنيت"}, {"id": "10192C", "nom": "م.م. أكليف"}, {"id": "21462C", "nom": "تيغزى"}]}, "م.م. تمنت": {"code": "10185V", "unites": [{"id": "10185V", "nom": "م.م. تمنت"}, {"id": "10188Y", "nom": "بوركان"}, {"id": "21463D", "nom": "تكاديرت"}, {"id": "23450N", "nom": "فرعية أتفر"}, {"id": "23455U", "nom": "تلعينت"}]}}, "الزاويت": {"م م زاوية اسوقين": {"code": "10210X", "unites": [{"id": "10210X", "nom": "م م زاوية اسوقين"}, {"id": "10211Y", "nom": "ايت واكريم"}, {"id": "10212Z", "nom": "للا حفصة"}, {"id": "10213A", "nom": "أصماد"}, {"id": "10214B", "nom": "أيت بن عامر"}, {"id": "18497E", "nom": "سيدي علي بغداد"}, {"id": "24209N", "nom": "تكاديرت ايت ابراهيم"}]}, "م.م. إندجا": {"code": "10206T", "unites": [{"id": "10206T", "nom": "م.م. إندجا"}, {"id": "10207U", "nom": "تغالرمين"}, {"id": "10208V", "nom": "تيوت"}, {"id": "10209W", "nom": "القلعة"}]}, "مدرستكم اشرمون": {"code": "23998J", "unites": [{"id": "23998J", "nom": "مدرستكم اشرمون"}]}}, "المواريد": {"م م بئر الزاع": {"code": "10032D", "unites": [{"id": "10032D", "nom": "م م بئر الزاع"}, {"id": "10033E", "nom": "تباردة"}, {"id": "10034F", "nom": "أكويدير"}, {"id": "10035G", "nom": "المرازكة"}, {"id": "23054H", "nom": "جيجط"}]}, "م.م. موسى بن نصير": {"code": "10028Z", "unites": [{"id": "10028Z", "nom": "م.م. موسى بن نصير"}, {"id": "10029A", "nom": "تعزات"}, {"id": "10030B", "nom": "سيدي سعيد"}, {"id": "10031C", "nom": "الدشرا"}]}}, "امخاليف": {"م م الميرات": {"code": "10124D", "unites": [{"id": "10124D", "nom": "م م الميرات"}, {"id": "10125E", "nom": "أولاد زياد"}, {"id": "10126F", "nom": "البشير بن عبد السلام"}, {"id": "10127G", "nom": "العزبا"}, {"id": "21450P", "nom": "ايت احمد بن الطيبي"}]}, "م.م. المخاليف": {"code": "10120Z", "unites": [{"id": "10120Z", "nom": "م.م. المخاليف"}, {"id": "10121A", "nom": "اسكاسكا"}, {"id": "10122B", "nom": "الدمار"}, {"id": "10123C", "nom": "الزنايد"}, {"id": "23050D", "nom": "لودينات"}, {"id": "23936S", "nom": "اجغيدرات"}]}}, "امرامر": {"م م بني سليم": {"code": "09909V", "unites": [{"id": "09909V", "nom": "م م بني سليم"}, {"id": "09910W", "nom": "الرحالة"}, {"id": "09912Y", "nom": "اكشتام"}, {"id": "09913Z", "nom": "الدويركات الفوقيين"}, {"id": "22252L", "nom": "المرس"}]}, "م م خالد بن الوليد": {"code": "09911x", "unites": [{"id": "09907T", "nom": "سيدي البغدادي"}, {"id": "09908U", "nom": "المهادي"}, {"id": "09911X", "nom": "م م خالد بن الوليد"}, {"id": "21083R", "nom": "القجيوات"}]}, "م.م. وادي المخازن": {"code": "09904P", "unites": [{"id": "09904P", "nom": "م.م. وادي المخازن"}, {"id": "09905R", "nom": "تمجدرة"}, {"id": "09906S", "nom": "أطرطور"}, {"id": "21999L", "nom": "تغراط"}]}}, "امزيلات": {"م.م المزيلات": {"code": "09890Z", "unites": [{"id": "09890Z", "nom": "م.م المزيلات"}, {"id": "09891A", "nom": "فرعية تيكتان"}, {"id": "09892B", "nom": "فرعية الدويركات"}, {"id": "09893C", "nom": "سوارت الواد"}, {"id": "09894D", "nom": "فرعية سوارت الجبل"}, {"id": "21992D", "nom": "فرعية الركاك"}]}}, "امكراد": {"م م الخوارزمي": {"code": "10369V", "unites": [{"id": "10368U", "nom": "اداوسحايك"}, {"id": "10369V", "nom": "م م الخوارزمي"}, {"id": "10375B", "nom": "تزكاد"}, {"id": "10378E", "nom": "اداوكلزن"}]}, "م.م الظهر": {"code": "10373Z", "unites": [{"id": "10373Z", "nom": "م.م الظهر"}, {"id": "10376C", "nom": "ايت با حمو"}, {"id": "10377D", "nom": "امرزاك"}, {"id": "18928Y", "nom": "دجشت"}]}, "م.م. إمكراد": {"code": "10367T", "unites": [{"id": "10367T", "nom": "م.م. إمكراد"}, {"id": "10370W", "nom": "إدواشما"}, {"id": "10371X", "nom": "إحوماش"}, {"id": "18927X", "nom": "إداويدر"}]}, "م/م الامام اشافعي": {"code": "10374A", "unites": [{"id": "10374A", "nom": "م/م الامام اشافعي"}, {"id": "10372Y", "nom": "تفغلال"}, {"id": "10379F", "nom": "إضوران"}]}}, "أولاد امرابط": {"م.م.المرابطين": {"code": "09951R", "unites": [{"id": "09951R", "nom": "م.م.المرابطين"}, {"id": "09954U", "nom": "الحياتلا"}, {"id": "09956W", "nom": "الدولما"}, {"id": "09957X", "nom": "اولاد عبو"}]}, "م.م.عمر بن الخطاب": {"code": "09952S", "unites": [{"id": "09952S", "nom": "م.م.عمر بن الخطاب"}, {"id": "09953T", "nom": "اولاد سعيد"}, {"id": "09955V", "nom": "المواريد"}]}}, "اوناغة": {"م م أبارو": {"code": "10005Z", "unites": [{"id": "10005Z", "nom": "م م أبارو"}, {"id": "10006A", "nom": "الزياتين"}, {"id": "10007B", "nom": "أكني التحتاني"}, {"id": "10008C", "nom": "أكني الفوقاني"}, {"id": "10010E", "nom": "أيت يحيا"}]}, "م.م لحرارثا": {"code": "09999T", "unites": [{"id": "09999T", "nom": "م.م لحرارثا"}, {"id": "10000U", "nom": "اداعمر"}, {"id": "10001V", "nom": "الجهيرة"}, {"id": "10003X", "nom": "الكوانين"}]}, "المدرسة الجماعاتية الأمير مولاي الحسن": {"code": "27838H", "unites": [{"id": "27838H", "nom": "المدرسة الجماعاتية الأمير مولاي الحسن"}]}, "م م ايت لخضر": {"code": "09996P", "unites": [{"id": "09994M", "nom": "الرويسات"}, {"id": "09995N", "nom": "أيت حامد"}, {"id": "09996P", "nom": "ايت لخضر"}, {"id": "10009D", "nom": "الجرف"}]}, "م.م. عثمان بن عفان": {"code": "10002W", "unites": [{"id": "10002W", "nom": "م.م. عثمان بن عفان"}, {"id": "09997R", "nom": "الكواش"}, {"id": "09998S", "nom": "تكلات"}, {"id": "10004Y", "nom": "القليعة"}, {"id": "21447L", "nom": "لمساسا"}]}}, "أيت سعيد": {"م م أكدال": {"code": "10062L", "unites": [{"id": "10062L", "nom": "م م أكدال"}, {"id": "10063M", "nom": "ايت بلحسن"}, {"id": "10064N", "nom": "إنجارن"}, {"id": "10065P", "nom": "إهراويين"}, {"id": "10066R", "nom": "تمرزاكت"}]}, "م.م. ابن بطوطة": {"code": "10057F", "unites": [{"id": "10057F", "nom": "م.م. ابن بطوطة"}, {"id": "10058G", "nom": "ايت العمري"}, {"id": "10059H", "nom": "اسطارة"}, {"id": "10060J", "nom": "أكريض"}, {"id": "10061K", "nom": "تبرواكت"}, {"id": "21448M", "nom": "ايت القطيب"}]}}, "أيت عيسى اححان": {"م.م افرا": {"code": "10338L", "unites": [{"id": "10338L", "nom": "م.م افرا"}, {"id": "10339M", "nom": "اضرضار"}, {"id": "10340N", "nom": "ادرار"}, {"id": "10341P", "nom": "تيكورين"}, {"id": "10342R", "nom": "تكنزة"}, {"id": "10343S", "nom": "تتكن"}, {"id": "24023L", "nom": "اوشقنوشت"}]}, "م.م ايت عيسي احاحان": {"code": "10332E", "unites": [{"id": "10332E", "nom": "م.م ايت عيسي احاحان"}, {"id": "10333F", "nom": "اكنان"}, {"id": "10334G", "nom": "اسرير"}, {"id": "10335H", "nom": "ونكرة"}, {"id": "10336J", "nom": "احتاش"}, {"id": "24024M", "nom": "تكاردجوت"}, {"id": "25050C", "nom": "تيدلي"}]}}, "ايدا اوكلول": {"م.م ادشفي": {"code": "10352B", "unites": [{"id": "10352B", "nom": "م.م ادشفي"}, {"id": "10355E", "nom": "ادحيمود اكني"}, {"id": "10356F", "nom": "امداحين"}, {"id": "10357G", "nom": "تيغرين"}]}, "م.م. إداوكلول": {"code": "10351A", "unites": [{"id": "10351A", "nom": "م.م. إداوكلول"}, {"id": "10353C", "nom": "ادوبراهيم"}, {"id": "10354D", "nom": "الظهر"}, {"id": "21470L", "nom": "إسلاوين"}, {"id": "21471M", "nom": "اداوسوان"}]}}, "ايدا وكازو": {"م.م أكركور": {"code": "10347W", "unites": [{"id": "10347W", "nom": "م.م أكركور"}, {"id": "10349Y", "nom": "تورار"}, {"id": "18929Z", "nom": "تفنتيرت"}, {"id": "21998K", "nom": "إمسكر"}]}, "م.م. ابو بكر الصديق": {"code": "10348X", "unites": [{"id": "10348X", "nom": "م.م. ابو بكر الصديق"}, {"id": "10346V", "nom": "إبران"}, {"id": "10350Z", "nom": "زاوية مصفور"}, {"id": "23039S", "nom": "بوابيا"}, {"id": "23040T", "nom": "إمنتزي"}, {"id": "23041U", "nom": "اكسيمن"}]}, "م.م. طارق بن زياد": {"code": "10344T", "unites": [{"id": "10344T", "nom": "م.م. طارق بن زياد"}, {"id": "10345U", "nom": "اداوحمان"}, {"id": "20652X", "nom": "تكمي إرمان"}, {"id": "21469K", "nom": "تامجرة"}, {"id": "23935R", "nom": "إمنتغزوت"}]}}, "ايذا وعزا": {"م.م إكزولن": {"code": "10320S", "unites": [{"id": "10320S", "nom": "م.م إكزولن"}, {"id": "10321T", "nom": "ازلا"}, {"id": "10322U", "nom": "إدامباركاحماد"}]}, "م.م. ابن زيدون": {"code": "10319R", "unites": [{"id": "10319R", "nom": "م.م. ابن زيدون"}, {"id": "10316M", "nom": "تدارت"}, {"id": "10317N", "nom": "كرونة"}, {"id": "10318P", "nom": "تكضيت"}]}, "م.م. ابي البركات": {"code": "10314K", "unites": [{"id": "10314K", "nom": "م.م. ابي البركات"}, {"id": "10315L", "nom": "تمزكيدة"}, {"id": "19773S", "nom": "انامر"}, {"id": "21468J", "nom": "ايت بردة"}]}}, "ايمي نتليت": {"م.م إبلاتن": {"code": "10284C", "unites": [{"id": "10284C", "nom": "م.م إبلاتن"}, {"id": "10285D", "nom": "أنامر"}, {"id": "10286E", "nom": "أيت الحرش"}, {"id": "10288G", "nom": "تنارايت"}, {"id": "25601B", "nom": "تبارين"}]}, "م.م. الجولان": {"code": "10279X", "unites": [{"id": "10279X", "nom": "م.م. الجولان"}, {"id": "10282A", "nom": "ايت سكري"}, {"id": "10287F", "nom": "ايت صليب"}, {"id": "23044X", "nom": "أسيف أوزرو"}]}, "م.م.الإمام مسلم": {"code": "10281Z", "unites": [{"id": "10281Z", "nom": "م.م.الإمام مسلم"}, {"id": "10280Y", "nom": "ايت واسيف"}, {"id": "10283B", "nom": "ايت حساين"}, {"id": "21867T", "nom": "بوتكيدة"}, {"id": "23043W", "nom": "تمسورين"}, {"id": "24214U", "nom": "إدعثمان"}]}}, "بوزمور": {"م. م ايت جرمون": {"code": "10173G", "unites": [{"id": "10173G", "nom": "م. م ايت جرمون"}, {"id": "10174H", "nom": "ايت كورمة"}, {"id": "10177L", "nom": "ايت بلقاسم"}, {"id": "23451P", "nom": "اسك اكبال"}, {"id": "24207L", "nom": "إزريفن"}]}, "م.م بوزمور": {"code": "10169C", "unites": [{"id": "10169C", "nom": "م.م بوزمور"}, {"id": "10170D", "nom": "ازغارن"}, {"id": "10172F", "nom": "الحلات"}, {"id": "21086U", "nom": "اكادير واعزيز"}, {"id": "21458Y", "nom": "تسيلا"}]}, "م.م. عبد الله بن ياسين": {"code": "10175J", "unites": [{"id": "10175J", "nom": "م.م. عبد الله بن ياسين"}, {"id": "10171E", "nom": "أيت يحيى"}, {"id": "10176K", "nom": "تكرط"}, {"id": "21459Z", "nom": "تيرت"}, {"id": "21460A", "nom": "أحسيتن"}, {"id": "24208M", "nom": "سوات"}, {"id": "25925D", "nom": "الزاويت"}]}}, "بيز ضاض": {"م.م. بئر أنزران": {"code": "10221J", "unites": [{"id": "10221J", "nom": "م.م. بئر أنزران"}, {"id": "10222K", "nom": "فرعية إكي فراض"}, {"id": "10223L", "nom": "فرعية أيت بيوض"}, {"id": "10224M", "nom": "فرعية تكوارت"}, {"id": "18923T", "nom": "فرعية إلزكاغن"}, {"id": "21079L", "nom": "فرعية تسيلا بوزيد"}]}, "م.م. تهلوانت": {"code": "10225N", "unites": [{"id": "10225N", "nom": "م.م. تهلوانت"}, {"id": "10226P", "nom": "تشورغة"}, {"id": "10227R", "nom": "تضرضورت"}, {"id": "10228S", "nom": "ايت خلوف"}, {"id": "10229T", "nom": "تمغزدان"}, {"id": "21078K", "nom": "الخنك"}, {"id": "23046Z", "nom": "باكو"}]}}, "تاركانت": {"م.م. الموحدين": {"code": "10381H", "unites": [{"id": "10381H", "nom": "م.م. الموحدين"}, {"id": "10383K", "nom": "ايت بوملاك"}, {"id": "10386N", "nom": "تسيلا انتكجدا"}, {"id": "18495C", "nom": "مكلات"}]}, "م.م. سيدي غانم": {"code": "10380G", "unites": [{"id": "10380G", "nom": "م.م. سيدي غانم"}, {"id": "10382J", "nom": "تابيا"}, {"id": "10384L", "nom": "ادستين"}, {"id": "10385M", "nom": "اضرضار"}]}, "م.م.تركانت": {"code": "10387P", "unites": [{"id": "10387P", "nom": "م.م.تركانت"}, {"id": "10388R", "nom": "إفرخس"}, {"id": "10389S", "nom": "اداوخراز"}, {"id": "10390T", "nom": "اد بنسعيد"}, {"id": "10391U", "nom": "اداوتنرايت"}, {"id": "10392V", "nom": "اخميسن"}, {"id": "21473P", "nom": "إدحمدا"}, {"id": "25356K", "nom": "اذ بن عياد"}]}}, "تافضنا": {"م.م اساغن": {"code": "10300V", "unites": [{"id": "10300V", "nom": "م.م اساغن"}, {"id": "10301W", "nom": "سيدي سعيد"}, {"id": "10302X", "nom": "تكروط"}, {"id": "10303Y", "nom": "تخريشيت"}, {"id": "21466G", "nom": "اسيلا اوزغ"}]}, "م.م. تفضنا": {"code": "10294N", "unites": [{"id": "10294N", "nom": "م.م. تفضنا"}, {"id": "10298T", "nom": "بوطبل"}, {"id": "10299U", "nom": "أكوزمير"}, {"id": "22258T", "nom": "السيحل"}]}, "م.م. عمرو بن العاص": {"code": "10295P", "unites": [{"id": "10295P", "nom": "م.م. عمرو بن العاص"}, {"id": "10296R", "nom": "اكنون"}, {"id": "10297S", "nom": "زاوية سيدي لحسن"}, {"id": "23042V", "nom": "افراضن"}]}}, "تاكوشت": {"م م تكوشت": {"code": "10193D", "unites": [{"id": "10193D", "nom": "م م تكوشت"}, {"id": "10194E", "nom": "ايت ولال"}, {"id": "10197H", "nom": "امكور"}, {"id": "10198J", "nom": "أكرض"}, {"id": "18920P", "nom": "تمدا افران"}, {"id": "25627E", "nom": "تسلا نتكوشت"}, {"id": "25628F", "nom": "سيدي محدي"}]}, "م م. السعديين": {"code": "10196G", "unites": [{"id": "10196G", "nom": "م م. السعديين"}, {"id": "10195F", "nom": "ايت واحمان"}, {"id": "10199K", "nom": "أنفار"}]}}, "تاهلوانت": {"م م امسكركيد": {"code": "10215C", "unites": [{"id": "10215C", "nom": "م م امسكركيد"}, {"id": "10216D", "nom": "تهلوانت"}, {"id": "10217E", "nom": "تليت"}, {"id": "10220H", "nom": "اكجكال"}, {"id": "23048B", "nom": "تغزوت"}, {"id": "24210P", "nom": "اكركا"}]}, "م م عبد الرحمان الداخل": {"code": "10219G", "unites": [{"id": "10219G", "nom": "م م عبد الرحمان الداخل"}, {"id": "10218F", "nom": "اادوتما"}, {"id": "20653Y", "nom": "تغزى"}, {"id": "21997J", "nom": "المرابطين"}, {"id": "23047A", "nom": "تكروت"}]}}, "تدزي": {"م.م تيكودار": {"code": "10259A", "unites": [{"id": "10259A", "nom": "م.م تيكودار"}, {"id": "10260B", "nom": "امين الحد"}, {"id": "10261C", "nom": "عين تزريل"}, {"id": "10262D", "nom": "اضراويين"}, {"id": "10263E", "nom": "سيدي عبد الواحد"}, {"id": "10264F", "nom": "اجراض"}, {"id": "21464E", "nom": "بوزرو"}, {"id": "25604E", "nom": "اكادير العين"}]}, "م.م. تيدزي": {"code": "10252T", "unites": [{"id": "10252T", "nom": "م.م. تيدزي"}, {"id": "10253U", "nom": "الجامع الفوقاني"}, {"id": "10254V", "nom": "سيدي بورجا"}, {"id": "10255W", "nom": "إماريغن"}, {"id": "10257Y", "nom": "بيحشماظ"}, {"id": "10258Z", "nom": "أورير"}]}}, "تفتاشت": {"م,علال بن عبد الله": {"code": "09877K", "unites": [{"id": "09877K", "nom": "م,علال بن عبد الله"}]}, "م.م. تفتاشت": {"code": "09958Y", "unites": [{"id": "09958Y", "nom": "م.م. تفتاشت"}, {"id": "09959Z", "nom": "اكرض"}, {"id": "09960A", "nom": "لعباضلة"}, {"id": "09961B", "nom": "ايت بوطيب 1"}, {"id": "09962C", "nom": "السهوبة"}, {"id": "23055J", "nom": "ايت بوطيب 2"}, {"id": "23056K", "nom": "الغابة"}]}}, "تكاط": {"م م خميس تكاط": {"code": "09946K", "unites": [{"id": "09946K", "nom": "م م خميس تكاط"}, {"id": "09947L", "nom": "الشليحات"}, {"id": "09948M", "nom": "الخليفات"}, {"id": "09949N", "nom": "العباضلة"}, {"id": "09950P", "nom": "الزمامطا الزكامنة"}, {"id": "23452R", "nom": "العزابا"}]}, "م.م. الأمام مالك": {"code": "09938B", "unites": [{"id": "09938B", "nom": "م.م. الأمام مالك"}, {"id": "09934X", "nom": "الحجاج"}, {"id": "09936Z", "nom": "اولاد امرابط"}, {"id": "09941E", "nom": "الدحاحنا"}, {"id": "09944H", "nom": "الكرعا"}]}, "م.م. القاضي عياض": {"code": "09933W", "unites": [{"id": "09933W", "nom": "م.م. القاضي عياض"}, {"id": "09935Y", "nom": "ايت حيموش"}, {"id": "09937A", "nom": "لعكاعكا"}, {"id": "09942F", "nom": "سيدي بويحيى"}, {"id": "21445J", "nom": "الحاسنا"}, {"id": "21866S", "nom": "أديون"}]}, "م.م. أولاد حسان": {"code": "09939C", "unites": [{"id": "09939C", "nom": "م.م. أولاد حسان"}, {"id": "09940D", "nom": "الحيمر"}, {"id": "09943G", "nom": "احميمصة"}, {"id": "09945J", "nom": "أهل الدار"}, {"id": "21446K", "nom": "لكدادنا"}]}}, "تمزكدة- أوفتاس": {"م.م ايت ازم": {"code": "10323V", "unites": [{"id": "10323V", "nom": "م.م ايت ازم"}, {"id": "10324W", "nom": "ايت اوسول"}, {"id": "10325X", "nom": "تيكوت"}, {"id": "10326Y", "nom": "تكركورت"}]}, "م.م. زاوية لوضا": {"code": "10330C", "unites": [{"id": "10330C", "nom": "م.م. زاوية لوضا"}, {"id": "10327Z", "nom": "فرعية زاوية لوضا"}, {"id": "10328A", "nom": "فرعية ادلعسري"}, {"id": "10329B", "nom": "فرعية تاسيلا مهدا"}, {"id": "10331D", "nom": "فرعية اصوفيد"}]}}, "حد الدرا": {"م.م. المنظر الجميل": {"code": "10017M", "unites": [{"id": "10017M", "nom": "م.م. المنظر الجميل"}, {"id": "10018N", "nom": "سيدي شيكر"}, {"id": "10019P", "nom": "سيدي يحيى"}, {"id": "21085T", "nom": "دوار العرب"}]}, "م.م.سيدي علي بن معاشو": {"code": "10011F", "unites": [{"id": "10011F", "nom": "م.م.سيدي علي بن معاشو"}, {"id": "10012G", "nom": "شبابطة"}, {"id": "10016L", "nom": "ايت التهرية"}, {"id": "10020R", "nom": "ايت العياشي"}, {"id": "24211R", "nom": "جوالة"}]}, "م/م أحمد الهدري": {"code": "10013H", "unites": [{"id": "10013H", "nom": "م/م أحمد الهدري"}, {"id": "10014J", "nom": "النكيعة"}, {"id": "10015K", "nom": "زمانات"}, {"id": "24212S", "nom": "لمسايم"}]}, "مدرستكم الحاج الطاهر": {"code": "23997H", "unites": [{"id": "23997H", "nom": "مدرستكم الحاج الطاهر"}]}}, "زاوية بن احميدة": {"م م بئر كوات": {"code": "10116V", "unites": [{"id": "10116V", "nom": "م م بئر كوات"}, {"id": "10117W", "nom": "ايت حمو"}, {"id": "10118X", "nom": "الخيارنة"}, {"id": "10119Y", "nom": "اولاد الريم تكانت"}]}, "م م زاوية بن حميدة": {"code": "10113S", "unites": [{"id": "10113S", "nom": "م م زاوية بن حميدة"}, {"id": "10114T", "nom": "ايت مسعود"}, {"id": "10115U", "nom": "ايت الحاج مسعود"}, {"id": "18917L", "nom": "اولاد علي الشلح"}]}}, "سميمو": {"م سيدي بوسكري": {"code": "09878L", "unites": [{"id": "09878L", "nom": "م سيدي بوسكري"}]}, "م.م. سميمو": {"code": "10289H", "unites": [{"id": "10289H", "nom": "م.م. سميمو"}, {"id": "10290J", "nom": "سيدي بوسكري"}, {"id": "10291K", "nom": "ايت عدي"}, {"id": "10292L", "nom": "تيضورين"}, {"id": "10293M", "nom": "تليت أييس"}]}}, "سيدي أحمد السايح": {"م/م ايت ادير": {"code": "10304Z", "unites": [{"id": "10304Z", "nom": "م/م ايت ادير"}, {"id": "10305A", "nom": "تكرضين"}, {"id": "10309E", "nom": "إد بوحسين"}, {"id": "10313J", "nom": "أغناج"}, {"id": "23536G", "nom": "تورزيط"}]}, "سيدي عمرو": {"code": "10307C", "unites": [{"id": "10307C", "nom": "سيدي عمرو"}, {"id": "10306B", "nom": "أعيسي"}, {"id": "10308D", "nom": "تداك"}, {"id": "22936E", "nom": "اسماعيلن"}]}, "م م تابولعوانت": {"code": "10310F", "unites": [{"id": "10310F", "nom": "م م تابولعوانت"}, {"id": "10311G", "nom": "فرعية الزاويت"}, {"id": "10312H", "nom": "فرعية ادموحين"}, {"id": "21467H", "nom": "فرعية سيدي بودركة"}]}}, "سيدي احمد او مبارك": {"م.م ارتوفلاح": {"code": "10362M", "unites": [{"id": "10362M", "nom": "م.م ارتوفلاح"}, {"id": "10363N", "nom": "اكوشتيم"}, {"id": "10364P", "nom": "تتسي"}, {"id": "10365R", "nom": "تسكاتين"}, {"id": "10366S", "nom": "تفزا احلمان"}, {"id": "21080M", "nom": "اكضاض"}, {"id": "25105M", "nom": "الدرزان"}]}, "م.م.عقبة بن نافع": {"code": "10358H", "unites": [{"id": "10358H", "nom": "م.م.عقبة بن نافع"}, {"id": "10359J", "nom": "ترسين"}, {"id": "10360K", "nom": "أمسيسن"}, {"id": "10361L", "nom": "أنزميط"}, {"id": "21472N", "nom": "المغاغ"}, {"id": "22935D", "nom": "الزاويت"}]}}, "سيدي احمد أوحامد": {"م.م. الرياض": {"code": "10244J", "unites": [{"id": "10244J", "nom": "م.م. الرياض"}, {"id": "10245K", "nom": "إدلحسن"}, {"id": "10246L", "nom": "إد العوني"}, {"id": "18925V", "nom": "الرياض"}, {"id": "23045Y", "nom": "بوزاضن"}]}, "م/م سيدي احمد اوحامد": {"code": "10249P", "unites": [{"id": "10249P", "nom": "م/م سيدي احمد اوحامد"}, {"id": "10247M", "nom": "اكردان"}, {"id": "10248N", "nom": "ايت جوجكل"}, {"id": "10250R", "nom": "تزيتونت"}, {"id": "10251S", "nom": "امكراد"}, {"id": "21076H", "nom": "بوسماط"}]}}, "سيدي اسحاق": {"م م الدحامنة": {"code": "10079E", "unites": [{"id": "10079E", "nom": "م م الدحامنة"}, {"id": "10081G", "nom": "القرية"}, {"id": "10082H", "nom": "اولاد اعمر"}, {"id": "22937F", "nom": "الدجايجيين"}]}, "م م محمد عابد الجابري": {"code": "10074Z", "unites": [{"id": "10074Z", "nom": "م م محمد عابد الجابري"}, {"id": "10076B", "nom": "اولاد موح"}, {"id": "10077C", "nom": "لمناصير"}, {"id": "10080F", "nom": "شياطات"}]}, "م.م. المناصير": {"code": "10073Y", "unites": [{"id": "10073Y", "nom": "م.م. المناصير"}, {"id": "10075A", "nom": "لعلالما"}, {"id": "10078D", "nom": "الزواكيط"}]}}, "سيدي الجزولي": {"م م اطايبين": {"code": "10269L", "unites": [{"id": "10269L", "nom": "م م اطايبين"}, {"id": "10270M", "nom": "اجكدرج"}, {"id": "10271N", "nom": "زاوية أوحسن"}, {"id": "10272P", "nom": "الطيبين"}, {"id": "10278W", "nom": "توريافلت"}, {"id": "21465F", "nom": "إدالباشا"}, {"id": "26134F", "nom": "إذ أجدي"}]}, "م.م. الإمام البخاري": {"code": "10275T", "unites": [{"id": "10275T", "nom": "م.م. الإمام البخاري"}, {"id": "10273R", "nom": "زاوية مولاي لحسن"}, {"id": "10274S", "nom": "إكودار"}, {"id": "10276U", "nom": "المشرع"}, {"id": "10277V", "nom": "أكادير"}, {"id": "21077J", "nom": "ايت علي"}]}, "م.م. سيدي الجازولي": {"code": "10265G", "unites": [{"id": "10265G", "nom": "م.م. سيدي الجازولي"}, {"id": "10266H", "nom": "تكراكرا"}, {"id": "10267J", "nom": "تسياست"}, {"id": "10268K", "nom": "أيت أوفتين"}, {"id": "18926W", "nom": "ادلحسن"}, {"id": "26133E", "nom": "زرار"}]}}, "سيدي امحمد اومرزوق": {"البليلات": {"code": "23999K", "unites": [{"id": "23999K", "nom": "البليلات"}]}, "م.م. سيدي محمد مرزوق": {"code": "09895E", "unites": [{"id": "09895E", "nom": "م.م. سيدي محمد مرزوق"}, {"id": "09896F", "nom": "لعمارنا 1"}, {"id": "09897G", "nom": "اعمارنا 2"}, {"id": "09898H", "nom": "سيدي محمد مرزوق"}]}, "م.م. لبدارنا": {"code": "09899J", "unites": [{"id": "09899J", "nom": "م.م. لبدارنا"}, {"id": "09900K", "nom": "لبدارنة الشرقيين"}, {"id": "09901L", "nom": "الحارث"}, {"id": "09902M", "nom": "المرس"}, {"id": "09903N", "nom": "الشروقات"}, {"id": "21864P", "nom": "الحريشة"}, {"id": "23454T", "nom": "الغربان"}]}}, "سيدي بولعلام": {"م م ابن الهيثم": {"code": "09920G", "unites": [{"id": "09920G", "nom": "م م ابن الهيثم"}, {"id": "09921H", "nom": "الكنديل"}, {"id": "09922J", "nom": "لفكيرات"}, {"id": "21994F", "nom": "ايت البقال"}, {"id": "22253M", "nom": "الصفيا"}]}, "م م سيدي بولعلام": {"code": "09914A", "unites": [{"id": "09914A", "nom": "م م سيدي بولعلام"}, {"id": "09915B", "nom": "لمعيطات"}, {"id": "09916C", "nom": "أيت العياشي"}, {"id": "09917D", "nom": "لمزيوقات"}, {"id": "09918E", "nom": "أيت بلخير"}, {"id": "24205J", "nom": "أولاد الشارف"}]}, "م م فج الريح": {"code": "09919F", "unites": [{"id": "09919F", "nom": "م م فج الريح"}, {"id": "09923K", "nom": "الغابة"}, {"id": "22254N", "nom": "احمد بن الجيلالي"}]}}, "سيدي عبد الجليل": {"م.م لخواضرة": {"code": "10132M", "unites": [{"id": "10132M", "nom": "م.م لخواضرة"}, {"id": "10133N", "nom": "لمغارات"}, {"id": "10134P", "nom": "اولاد الرحالية"}, {"id": "10135R", "nom": "لغوال"}, {"id": "21452S", "nom": "ايت علي الشلح"}]}, "م.م. الزاوية": {"code": "10128H", "unites": [{"id": "10128H", "nom": "م.م. الزاوية"}, {"id": "10129J", "nom": "لحسينات"}, {"id": "10130K", "nom": "لحشوضات"}, {"id": "10131L", "nom": "أولاد الشيخ"}, {"id": "18918M", "nom": "أكسيمة"}, {"id": "21451R", "nom": "أيت الحمري"}]}}, "سيدي علي الكراتي": {"م م اهل الجمعة": {"code": "10090S", "unites": [{"id": "10090S", "nom": "م م اهل الجمعة"}, {"id": "10092U", "nom": "لفتاتشا"}, {"id": "10093V", "nom": "اولاد بوجود"}, {"id": "10094W", "nom": "المعاضيل"}]}, "م م اولاد عبد الحليم": {"code": "10086M", "unites": [{"id": "10086M", "nom": "م م اولاد عبد الحليم"}, {"id": "10087N", "nom": "الجريفات"}, {"id": "10088P", "nom": "لعبابسة"}, {"id": "10089R", "nom": "أكادير البطن"}]}, "م م سيدي علي الكرلتي": {"code": "10083J", "unites": [{"id": "10083J", "nom": "م م سيدي علي الكرلتي"}, {"id": "10084K", "nom": "الشهب"}, {"id": "10085L", "nom": "غروابا"}, {"id": "10091T", "nom": "الحسينات الرويسات"}]}}, "سيدي عيسى الركراكي": {"م م اغيسي": {"code": "09928R", "unites": [{"id": "09928R", "nom": "م م اغيسي"}, {"id": "09929S", "nom": "النكودات"}, {"id": "09930T", "nom": "ايت موسى"}, {"id": "09931U", "nom": "ايت جعيمة"}, {"id": "09932V", "nom": "ايت عبد الرحمان"}]}, "م.م. سيدي عيسى النعيرات": {"code": "09924L", "unites": [{"id": "09924L", "nom": "م.م. سيدي عيسى النعيرات"}, {"id": "09925M", "nom": "الزماترة"}, {"id": "09926N", "nom": "الدريوة"}, {"id": "09927P", "nom": "أبادو"}, {"id": "18916K", "nom": "الكرض"}, {"id": "23057L", "nom": "فطواكة"}]}}, "سيدي غانم": {"م.م. يوسف بن تاشفين": {"code": "10202N", "unites": [{"id": "10202N", "nom": "م.م. يوسف بن تاشفين"}, {"id": "10201M", "nom": "دوتما"}, {"id": "10205S", "nom": "أمسين"}, {"id": "18922S", "nom": "القلعة"}, {"id": "21087V", "nom": "تيولي"}, {"id": "24213T", "nom": "إفرخاس اكرض"}]}, "م.م.الحسن بن علي": {"code": "10200L", "unites": [{"id": "10200L", "nom": "م.م.الحسن بن علي"}, {"id": "10203P", "nom": "أكاموض"}, {"id": "10204R", "nom": "ترغونت"}, {"id": "18921R", "nom": "ادا وكنضيف"}]}}, "سيدي كاوكي": {"م.م.ابن سينا": {"code": "10233X", "unites": [{"id": "10233X", "nom": "م.م.ابن سينا"}, {"id": "10232W", "nom": "فلوست"}, {"id": "10234Y", "nom": "تركانت"}, {"id": "21081N", "nom": "تغانمين"}]}, "م.م.سيدي كاوكي": {"code": "10230U", "unites": [{"id": "10230U", "nom": "م.م.سيدي كاوكي"}, {"id": "10231V", "nom": "فرعية ايت ياسين"}, {"id": "10235Z", "nom": "فرعية مرمان"}, {"id": "18924U", "nom": "فرعية ايت لحسن"}]}}, "سيدي لعروسي": {"م م سكياط": {"code": "10136S", "unites": [{"id": "10136S", "nom": "م م سكياط"}, {"id": "10137T", "nom": "ايت الصالح"}, {"id": "10141X", "nom": "الزرايب"}, {"id": "21453T", "nom": "البراهمية"}, {"id": "23049C", "nom": "النواعمة"}]}, "م م سيدي العروسي": {"code": "10147D", "unites": [{"id": "10147D", "nom": "م م سيدي العروسي"}, {"id": "10139V", "nom": "لمساعدا"}, {"id": "10148E", "nom": "ازراركة"}, {"id": "10149F", "nom": "ازويتينات"}, {"id": "10150G", "nom": "زاوية سيدي العروسي"}, {"id": "23453S", "nom": "بوعبدلي"}, {"id": "26447W", "nom": "العبابسا"}]}, "م.م. ابن طفيل": {"code": "18919N", "unites": [{"id": "18919N", "nom": "م.م. ابن طفيل"}, {"id": "10138U", "nom": "لقليعة"}, {"id": "10140W", "nom": "تغنوشت"}, {"id": "21454U", "nom": "سيدي حمو احساين"}]}, "م.م. لبيشات": {"code": "10144A", "unites": [{"id": "10144A", "nom": "م.م. لبيشات"}, {"id": "10142Y", "nom": "عربات"}, {"id": "10143Z", "nom": "لبيشات"}, {"id": "10145B", "nom": "لمقدمين"}, {"id": "10146C", "nom": "أرزيكات"}, {"id": "21455V", "nom": "أركاركة"}]}}, "كريمات": {"م م ايت ابراهيم": {"code": "10040M", "unites": [{"id": "10040M", "nom": "م م ايت ابراهيم"}, {"id": "10041N", "nom": "لعصابا"}, {"id": "10043R", "nom": "ايت ادار"}, {"id": "10044S", "nom": "لكبيبة"}, {"id": "23052F", "nom": "اجهاير"}, {"id": "10042P", "nom": "لعميمات"}]}, "م م تليوة": {"code": "10045T", "unites": [{"id": "10045T", "nom": "م م تليوة"}, {"id": "10046U", "nom": "اولاد ادريس"}, {"id": "10047V", "nom": "ايت الغراء"}, {"id": "10048W", "nom": "بئر الفايض"}, {"id": "10049X", "nom": "بئر العجلة"}]}, "م.م. المسيرة الخضراء": {"code": "10036H", "unites": [{"id": "10036H", "nom": "م.م. المسيرة الخضراء"}, {"id": "10037J", "nom": "توزارت"}, {"id": "10038K", "nom": "ايت بوحسين"}, {"id": "10039L", "nom": "الكراتيين"}]}}, "كشولة": {"م م اصهاهلا": {"code": "09978V", "unites": [{"id": "09978V", "nom": "م م اصهاهلا"}, {"id": "09979W", "nom": "ايت مهراز"}, {"id": "09980X", "nom": "اولاد بولحسن"}, {"id": "09981Y", "nom": "سيدي عبد الله"}]}, "م م لكراردة": {"code": "09973P", "unites": [{"id": "09973P", "nom": "م م لكراردة"}, {"id": "09974R", "nom": "تمسخت"}, {"id": "09975S", "nom": "بئر الفايض"}, {"id": "09976T", "nom": "الحماتلة"}, {"id": "09977U", "nom": "لعليوات"}, {"id": "21082P", "nom": "سيدي العربي"}, {"id": "21995G", "nom": "ايت سناح"}]}}, "لحسينات": {"م م أيت بوصدوك": {"code": "10054C", "unites": [{"id": "10054C", "nom": "م م أيت بوصدوك"}, {"id": "10055D", "nom": "أيت عيسى"}, {"id": "10056E", "nom": "أيت علال"}, {"id": "22255P", "nom": "الصوالح"}, {"id": "23053G", "nom": "ايت عبد السلام"}]}, "م,م الحسينات": {"code": "10050Y", "unites": [{"id": "10050Y", "nom": "م,م الحسينات"}, {"id": "10051Z", "nom": "النبيكات"}, {"id": "10052A", "nom": "الحامول"}, {"id": "10053B", "nom": "البيض"}]}}, "لكدادرة": {"م م الفيجل": {"code": "10067S", "unites": [{"id": "10067S", "nom": "م م الفيجل"}, {"id": "10069U", "nom": "فرعية الشرفا"}, {"id": "21084S", "nom": "فرعية ايت دوباج"}, {"id": "21449N", "nom": "فرعية ايت بووركانة"}]}, "م.م. حمان الفطواكي": {"code": "10068T", "unites": [{"id": "10068T", "nom": "م.م. حمان الفطواكي"}, {"id": "10070V", "nom": "أولاد خديم"}, {"id": "10071W", "nom": "النجارة"}, {"id": "10072X", "nom": "لمساتلا"}, {"id": "22259U", "nom": "الربابعة"}]}}, "مجي": {"م م ابن زهر": {"code": "09963D", "unites": [{"id": "09963D", "nom": "م م ابن زهر"}, {"id": "09964E", "nom": "أفرش"}, {"id": "09965F", "nom": "الزنافرة"}]}, "م م سيدي عيسى البير": {"code": "09966G", "unites": [{"id": "09966G", "nom": "م م سيدي عيسى البير"}, {"id": "09967H", "nom": "ايت بوتاتن"}, {"id": "09968J", "nom": "ايت ابراهيم"}, {"id": "09969K", "nom": "الشويات"}]}, "م.م. كشولة": {"code": "09970L", "unites": [{"id": "09970L", "nom": "م.م. كشولة"}, {"id": "09971M", "nom": "ايت لباري"}, {"id": "09972N", "nom": "الكورة"}]}}, "مسكالة": {"م م ايت ابراهيم اوسعيد": {"code": "10025W", "unites": [{"id": "10025W", "nom": "م م ايت ابراهيم اوسعيد"}, {"id": "10026X", "nom": "الظهر"}, {"id": "10027Y", "nom": "مزة"}]}, "م م مسكالة": {"code": "10021S", "unites": [{"id": "10021S", "nom": "م م مسكالة"}, {"id": "10022T", "nom": "تابوجميعت"}, {"id": "10023U", "nom": "الفيرات"}, {"id": "10024V", "nom": "تيوت"}]}}, "مولاي بوزرقطون": {"م م ام العيون": {"code": "09988F", "unites": [{"id": "09988F", "nom": "م م ام العيون"}, {"id": "09984B", "nom": "ليسرا"}, {"id": "09989G", "nom": "مولاي بوزرقطون"}, {"id": "09991J", "nom": "شيشت"}, {"id": "09992K", "nom": "ثلاث وركان"}, {"id": "24548G", "nom": "ليسرا 2"}]}, "م.م. مولاي بوزرقطون": {"code": "09982Z", "unites": [{"id": "09982Z", "nom": "م.م. مولاي بوزرقطون"}, {"id": "09983A", "nom": "لمعاشات 2"}, {"id": "09985C", "nom": "زاوية الشريف"}, {"id": "09986D", "nom": "الحدادا"}, {"id": "09987E", "nom": "لمباشرا"}, {"id": "09990H", "nom": "إمزوغار"}]}}};
+
+// =============================================
+// INIT
+// =============================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Populate communes
+  const sel = document.getElementById('selectCommune');
+  Object.keys(SCHOOLS).sort().forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+
+  // Set today's date
+  const now = new Date();
+  const opts = { year:'numeric', month:'long', day:'numeric', calendar:'islamic', numberingSystem:'arab' };
+  try {
+    document.getElementById('fillDate').textContent = now.toLocaleDateString('ar-MA-u-ca-islamic', opts) + ' / ' + now.toLocaleDateString('ar-MA');
+  } catch(e) {
+    document.getElementById('fillDate').textContent = now.toLocaleDateString('ar-MA');
+  }
+});
+
+// =============================================
+// CASCADE SELECTS
+// =============================================
+function onCommuneChange() {
+  const commune = document.getElementById('selectCommune').value;
+  const etabSel = document.getElementById('selectEtab');
+  etabSel.innerHTML = '<option value="">— اختر المؤسسة —</option>';
+  etabSel.disabled = true;
+  document.getElementById('etabInfoBox').classList.remove('show');
+  clearUnits();
+
+  if (!commune) return;
+
+  const etabs = SCHOOLS[commune];
+  Object.keys(etabs).sort().forEach(e => {
+    const o = document.createElement('option');
+    o.value = e; o.textContent = e;
+    etabSel.appendChild(o);
+  });
+  etabSel.disabled = false;
+  updateSteps(1);
+}
+
+function onEtabChange() {
+  const commune = document.getElementById('selectCommune').value;
+  const etab = document.getElementById('selectEtab').value;
+  
+  if (!commune || !etab) { clearUnits(); return; }
+
+  const data = SCHOOLS[commune][etab];
+  document.getElementById('etabCode').textContent = data.code;
+  document.getElementById('etabUnitCount').textContent = data.unites.length + ' وحدة';
+  document.getElementById('etabInfoBox').classList.add('show');
+
+  buildUnitsTable(data.unites);
+  updateSteps(2);
+}
+
+// =============================================
+// BUILD TABLE
+// =============================================
+function buildUnitsTable(unites) {
+  const tbody = document.getElementById('unitsBody');
+  tbody.innerHTML = '';
+  
+  unites.forEach((u, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${u.nom}</strong></td>
+      <td class="id-cell">${u.id}</td>
+      <td><input type="number" min="0" placeholder="0" id="f1_${i}" class="unit-input"></td>
+      <td><input type="number" min="0" placeholder="0" id="f2_${i}" class="unit-input"></td>
+      <td><input type="number" min="0" placeholder="0" id="f3_${i}" class="unit-input"></td>
+      <td><input type="number" min="0" placeholder="0" id="f4_${i}" class="unit-input"></td>
+      <td><input type="number" min="0" placeholder="0" id="f5_${i}" class="unit-input"></td>
+      <td>
+        <select id="f6_${i}">
+          <option value="">—</option>
+          <option value="نعم">نعم</option>
+          <option value="لا">لا</option>
+        </select>
+      </td>
+      <td><input type="number" min="0" step="0.1" placeholder="0" id="f7_${i}" class="unit-input"></td>
+      <td><input type="text" placeholder="..." id="f8_${i}"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('unitsSection').classList.add('visible');
+  document.getElementById('noUnitMsg').style.display = 'none';
+  document.getElementById('unitsCountBadge').textContent = unites.length;
+  document.getElementById('btnSubmit').disabled = false;
+  updateSteps(3);
+}
+
+function clearUnits() {
+  document.getElementById('unitsSection').classList.remove('visible');
+  document.getElementById('noUnitMsg').style.display = 'block';
+  document.getElementById('btnSubmit').disabled = true;
+  document.getElementById('unitsBody').innerHTML = '';
+}
+
+// =============================================
+// STEPS UI
+// =============================================
+function updateSteps(active) {
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('s'+i);
+    el.classList.remove('active','done');
+    if (i < active) el.classList.add('done');
+    else if (i === active) el.classList.add('active');
+    if (i < 3) {
+      const line = document.getElementById('l'+i);
+      line.classList.toggle('done', i < active);
+    }
+  }
+}
+
+// =============================================
+// COLLECT DATA
+// =============================================
+function collectData() {
+  const commune = document.getElementById('selectCommune').value;
+  const etab = document.getElementById('selectEtab').value;
+  if (!commune || !etab) return null;
+
+  const data = SCHOOLS[commune][etab];
+  const rows = [];
+
+  data.unites.forEach((u, i) => {
+    rows.push({
+      commune,
+      etablissement: etab,
+      code_rattachement: data.code,
+      unite_id: u.id,
+      unite_nom: u.nom,
+      directeur: document.getElementById('directorName').value.trim(),
+      telephone: document.getElementById('directorPhone').value.trim(),
+      email: document.getElementById('directorEmail').value.trim(),
+      date_remplissage: new Date().toISOString().split('T')[0],
+      premiere_abti: document.getElementById('f1_'+i)?.value || '',
+      total_abti: document.getElementById('f2_'+i)?.value || '',
+      premiere_awali: document.getElementById('f3_'+i)?.value || '',
+      deuxieme_awali: document.getElementById('f4_'+i)?.value || '',
+      hujrat_awali: document.getElementById('f5_'+i)?.value || '',
+      mubadara: document.getElementById('f6_'+i)?.value || '',
+      distance: document.getElementById('f7_'+i)?.value || '',
+      notes: document.getElementById('f8_'+i)?.value || ''
+    });
+  });
+
+  return rows;
+}
+
+// =============================================
+// SUBMIT
+// =============================================
+// ⚠️  REPLACE THIS URL with your Google Apps Script Web App URL
+const APPS_SCRIPT_URL = 'https://script.google.com/u/0/home/projects/1GtkVPV42qSWM2qZN-r2rTdVsFN1XGUoT6Wa0IZXtl2cF_SLbSX6VTYLy/edit';
+
+async function submitForm() {
+  const dirName = document.getElementById('directorName').value.trim();
+  if (!dirName) {
+    showToast('الرجاء إدخال اسم المدير', 'error');
+    document.getElementById('directorName').focus();
+    return;
+  }
+
+  const rows = collectData();
+  if (!rows || rows.length === 0) {
+    showToast('الرجاء اختيار المؤسسة أولاً', 'error');
+    return;
+  }
+
+  // If no Apps Script URL configured, download as CSV
+  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+    downloadCSV(rows);
+    return;
+  }
+
+  showLoading(true);
+  try {
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ rows }),
+      headers: { 'Content-Type': 'text/plain' }
+    });
+    const result = await response.json();
+    if (result.status === 'ok') {
+      showToast('✅ تم حفظ البيانات بنجاح!', 'success');
+      setTimeout(() => {
+        document.getElementById('directorName').value = '';
+        document.getElementById('directorPhone').value = '';
+        document.getElementById('directorEmail').value = '';
+      }, 1500);
+    } else {
+      showToast('حدث خطأ: ' + (result.message || 'خطأ غير معروف'), 'error');
+    }
+  } catch(e) {
+    showToast('تعذر الاتصال بقاعدة البيانات', 'error');
+  }
+  showLoading(false);
+}
+
+// =============================================
+// CSV EXPORT (fallback)
+// =============================================
+function downloadCSV(rows) {
+  const headers = ['الجماعة','المؤسسة','رمز الارتباط','رمز الوحدة','اسم الوحدة',
+    'اسم المدير','الهاتف','البريد','تاريخ الملء',
+    'الأولى ابتدائي','مجموع الابتدائي','الأولى أولي','الثانية أولي',
+    'حجرات الأولي','المبادرة','المسافة','ملاحظات'];
+  
+  const keys = ['commune','etablissement','code_rattachement','unite_id','unite_nom',
+    'directeur','telephone','email','date_remplissage',
+    'premiere_abti','total_abti','premiere_awali','deuxieme_awali',
+    'hujrat_awali','mubadara','distance','notes'];
+
+  const bom = '\uFEFF';
+  const csvRows = [headers.join(',')];
+  rows.forEach(r => {
+    csvRows.push(keys.map(k => `"${(r[k]||'').toString().replace(/"/g,'""')}"`).join(','));
+  });
+
+  const blob = new Blob([bom + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const etab = document.getElementById('selectEtab').value.replace(/\s/g,'_');
+  a.download = `بيانات_${etab}_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ تم تنزيل الملف بنجاح', 'success');
+}
+
+// =============================================
+// UI HELPERS
+// =============================================
+function showLoading(show) {
+  document.getElementById('loadingOverlay').classList.toggle('show', show);
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type;
+  setTimeout(() => { t.className = 'toast'; }, 4000);
+}
+</script>
+</body>
+</html>
